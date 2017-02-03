@@ -1,0 +1,61 @@
+S[head] = IF[head:action,#assert]	NP1[head,head:content]	V[head,#is] VP[head,head:content] PP[head:content] | 
+IF[head:action,#info-req] 	AUX[head,head:content] NP1[head,head:content:prop] VP[head,head:content:prop] PP[head:content:prop]PREP[#?]| 
+	  IF[head:action,#order] VP[head,head:content] PP[head:content] PREP[#!] | if[head:action,#greeting] WH[#how] N[#are] N[#you]
+
+NP1[head,x] = 	if[x,x] NP[head,x:agent] |
+		if[head:action,#assert] NP[head,x:object-id] |
+		if[x,x] N[#]
+
+NP[head,X] =  	IF[X,head:addressee] N[#you] | 	
+		IF[X,head:actor] N[#I] | 
+		IF[X,X] DET[#the] N[X] 
+
+VP[head,X] = 	IF[X:type,#event] if[x:event,x:event] V[head,X:event] OBJ[head,x] |
+		if[x:type,#event] V[head,#get] PREP[#to] OBJ[head,x] |
+		IF[X:type,#action] if[x:event,x:event] V[head,X:event] OBJ[head,x] |
+		if[x:type,#action] V[head,#get] PREP[#to] OBJ[head,x] |
+		IF[X:type,#act] if[x:event,x:event] V[head,X:event] OBJ[head,x] |
+		if[x:type,#act] V[head,#get] PREP[#to] OBJ[head,x] |
+		if[head:content:q-slot,#value] OBJ[head,x] |
+		if[head:content:q-slot,#attribute] OBJ[head,x] |
+		if[x:type,#state] if[head:content:q-slot,#polarity] OBJ[head,x] ATRB[head,x] |
+		if[x:type,#state] ATRB[head,x] OBJ[head,x]|
+		if[x,x] N[#] OBJ[head,x]
+
+OBJ[head,x] =	NP[head,X:patient] | NP[head,x:object-id]| NP[head,x:theme] | if[x,x] N[#]
+
+ATRB[head,x] = 	if[x:value,#yes] NOT[x] ATT[head,x:attribute] |
+		if[x:value,x:value] NOT[x] ATT[head,x:value] |
+		if[x:attribute,x:attribute] NOT[x] ATT[head,x:attribute] |
+		if[x,x] N[#]
+
+NOT[x] = if[x:polarity,#negative] N[#not] | if[x,x] N[#]
+
+AUX[head,X] = 	IF[X:q-slot,#polarity] if[x:prop:type,#event] V[head,#do] |
+		IF[X:q-slot,#polarity] if[x:prop:type,#state] V[head,#is] |
+		if[x:q-slot,#attribute] WH[#how] ATRB[head,x:prop] V[head,#is] |
+		if[x:q-slot,#value] WH[#how] ATRB[head,x:prop] V[head,#is] |
+		if[x:q-slot,#object-id] WH[#what] V[head,#is] |
+		if[x:q-slot,#sim-object] WH[#what] V[head,#is] |
+		if[x:q-slot,#theme] WH[#what] V[head,#is] |
+		if[x:q-slot,#event] WH[#how] V[head,#do] |
+		if[x:q-slot,#instrument] PREP[#with] WH[#what] V[head,#do] |
+		if[x:q-slot,#source] PREP[#from] WH[#where] V[head,#do] |
+		if[x:q-slot,#destination] PREP[#to] WH[#where] V[head,#do] |
+		if[x:q-slot,#location] WH[#where] V[head,#do] |
+		if[x:q-slot,#location] WH[#where] V[head,#do] |
+		if[x:q-slot,#agent] WH[#who] V[head,#did] |
+		if[x:q-slot,#beneficiary] WH[#who] V[head,#did] |
+		if[x:q-slot,#patient] WH[#who] V[head,#did] |
+		if[x,x] N[x:q-slot] V[head,#do]
+
+
+PP[x] = 	PREP[#from] PREP[x:source] PREP[#to] PREP[x:destination]|
+		PREP[#from] PREP[x:source] |
+		PREP[#to] PREP[x:destination] |
+		PREP[#over] PREP[x:location] |
+		N[#]
+
+
+
+
